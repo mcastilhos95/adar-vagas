@@ -152,3 +152,35 @@ ignorar_titulo: [estagio, estágio, estagiario, estagiaria, estagiário, estagi�
 
 # Notificação: só avisa vagas com nota a partir de
 nota_minima_alerta: 55
+
+# Página "O que o mercado pede": o que procurar no texto das vagas
+mercado:
+  conhecimentos: [faturamento, faturamento sus, faturamento de convenios, faturamento de convênios,
+                  conta hospitalar, contas hospitalares, contas ambulatoriais, internacao, internação,
+                  glosa, glosas, recurso de glosa, auditoria, auditoria de contas, pre faturamento,
+                  pré-faturamento, autorizacao, autorização, guias, elegibilidade, tiss, padrao tiss,
+                  padrão tiss, xml, ans, sus, sigtap, aih, bpa, apac, cid, tuss, cbhpm, brasindice,
+                  brasíndice, simpro, opme, honorarios, honorários, materiais e medicamentos, prontuario,
+                  prontuário, terminologia medica, terminologia médica, home care, negociacao,
+                  negociação, indicadores, atendimento ao cliente, atendimento ao publico,
+                  atendimento ao público, contas a receber, conciliacao, conciliação, nota fiscal,
+                  emissao de notas, emissão de notas, folha de pagamento, admissao, admissão,
+                  recrutamento, selecao, seleção, arquivo, agenda, recepcao, recepção]
+  sistemas: [tasy, mv, soul mv, wareline, sap, totvs, protheus, salutem, sgh, philips,
+             excel, excel avancado, excel avançado, power bi, pacote office, word, sistema hospitalar]
+  escolaridade:
+    Ensino médio: [ensino medio, ensino médio, segundo grau]
+    Curso técnico: [curso tecnico, curso técnico, tecnico em, técnico em, nivel tecnico, nível técnico]
+    Superior cursando: [cursando, superior em andamento, graduacao em andamento, graduação em andamento, superior incompleto]
+    Superior completo: [superior completo, ensino superior completo, graduacao completa, graduação completa, formacao superior, formação superior]
+  jornada:
+    Presencial: [presencial]
+    Híbrido: [hibrido, híbrido]
+    Remoto: [remoto, home office]
+    Escala 12x36: [12x36]
+    Sábados: [sabado, sábado, sabados, sábados]
+    Noturno: [noturno]
+  regime:
+    CLT / efetivo: [clt, efetivo, efetiva]
+    Temporário: [temporario, temporário, prazo determinado]
+    PJ: [pj, pessoa juridica, pessoa jurídica]

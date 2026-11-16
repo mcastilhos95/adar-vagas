@@ -72,7 +72,7 @@ def main():
     banco.commit()
     print(f"\n{total} vagas avaliadas, {len(novas)} novas, {ignoradas} ignoradas pelo título")
 
-    destino = painel.gerar(banco.todas(), perfil["nome"], a.saida)
+    destino = painel.gerar(banco.todas(), perfil["nome"], a.saida, perfil)
     print(f"Painel: {destino}")
 
     if not a.sem_alerta:
