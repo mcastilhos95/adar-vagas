@@ -75,7 +75,7 @@ def avaliar(vaga: dict, perfil: dict) -> dict | None:
     if alvo:
         n_titulo, trilha = 100, "Faturamento"
     elif sec:
-        n_titulo, trilha = 55, "Administrativo/RH"
+        n_titulo, trilha = 45, "Administrativo/RH"
     elif any(_tem(texto, t) for t in perfil["titulos"]["alvo"]):
         n_titulo, trilha = 35, "Faturamento (na descrição)"
     else:
@@ -117,9 +117,20 @@ def avaliar(vaga: dict, perfil: dict) -> dict | None:
     nota = (n_titulo * p["titulo"] + n_comp * p["competencias"]
             + n_local * p["local"] + n_rec * p["recencia"]) / 100
 
-    alertas, bonus = [], []
+    bonus = []
+    # benefício "plano de saúde" não conta; olha título, empresa e descrição
+    txt_saude = normalizar(f"{vaga.get('empresa', '')} {texto}").replace("plano de saude", "")
+    saude = any(_tem(txt_saude, t) for t in perfil.get("contexto_saude", []))
+    if trilha == "Faturamento" and not saude:
+        trilha = "Faturamento (fora da saúde)"
+        nota -= 12
+        alertas_ctx = ["Faturamento comercial/fiscal, não hospitalar"]
+    else:
+        alertas_ctx = []
+    alertas = list(alertas_ctx)
     for a in perfil.get("alertas", []):
-        if any(_tem(texto, t) for t in a["termos"]):
+        alvo_txt = titulo if a.get("so_titulo") else texto
+        if any(_tem(alvo_txt, t) for t in a["termos"]):
             nota -= a["peso"]
             alertas.append(a["aviso"])
     for b in perfil.get("bonus", []):
@@ -127,9 +138,13 @@ def avaliar(vaga: dict, perfil: dict) -> dict | None:
             nota += b["peso"]
             bonus.append(b["motivo"])
 
-    # Fora do foco nunca passa de 40
-    if trilha == "Fora do foco":
-        nota = min(nota, 40)
+    # Tetos: o foco é faturamento hospitalar, o resto nunca passa na frente
+    tetos = {"Fora do foco": 40, "Faturamento (na descrição)": 58,
+             "Administrativo/RH": 74 if saude else 64, "Faturamento (fora da saúde)": 70}
+    if trilha == "Administrativo/RH" and saude:
+        bonus.append("Administrativo na área da saúde")
+    if trilha in tetos:
+        nota = min(nota, tetos[trilha])
     nota = round(max(0, min(100, nota)))
 
     faixa = ("Excelente" if nota >= 75 else "Boa" if nota >= 60

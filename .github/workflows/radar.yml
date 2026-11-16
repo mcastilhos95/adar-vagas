@@ -41,6 +41,7 @@ jobs:
           git config user.email "radar-bot@users.noreply.github.com"
           git add dados/radar.db
           git diff --cached --quiet || git commit -m "radar: atualização $(date -u +%F_%H%M)"
+          git pull --rebase -X theirs origin main
           git push
 
       - uses: actions/upload-pages-artifact@v3

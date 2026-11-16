@@ -116,6 +116,11 @@ alertas:
     aviso: "Usa sistema MV (ela conhece Tasy). Vale citar adaptação rápida"
     peso: 2
 
+  - termos: [pcd, pessoas com deficiencia, pessoas com deficiência, reabilitados]
+    aviso: "Vaga exclusiva ou preferencial para PcD"
+    peso: 30
+    so_titulo: true
+
 # Pontos que somam (ela tem e é diferencial)
 bonus:
   - termos: [tasy]
@@ -128,6 +133,12 @@ bonus:
     motivo: "Santa Casa, onde ela já trabalhou"
     peso: 3
 
+# Faturamento só conta como "da área" se a vaga for de saúde
+contexto_saude: [hospital, hospitalar, clinica, clínica, clinico, clínico, laboratorio, laboratório,
+                 operadora de saude, operadora de saúde, contas medicas, contas médicas, glosa, glosas,
+                 paciente, pacientes, prontuario, prontuário, enfermagem, santa casa, faturamento hospitalar,
+                 convenios medicos, convênios médicos, saude suplementar, saúde suplementar]
+
 # Pesos da nota final (somam 100)
 pesos:
   titulo: 35
@@ -136,7 +147,7 @@ pesos:
   recencia: 15
 
 # Ignorar vagas com estes termos no título
-ignorar_titulo: [estagio, estágio, jovem aprendiz, aprendiz, trainee, medico, médico,
+ignorar_titulo: [estagio, estágio, estagiario, estagiaria, estagiário, estagiária, jovem aprendiz, aprendiz, trainee, medico, médico,
                  farmaceutico, farmacêutico, vendedor, motorista, desenvolvedor]
 
 # Notificação: só avisa vagas com nota a partir de

@@ -71,5 +71,18 @@ class Banco:
         return [dict(r) for r in self.c.execute(
             "SELECT * FROM execucoes ORDER BY quando DESC LIMIT ?", (n,))]
 
+    def reavaliar(self, perfil, avaliar):
+        """Recalcula a nota de todas as vagas com o perfil atual (mudou o perfil, muda a nota)."""
+        cols = ["id", "fonte", "titulo", "empresa", "local", "url", "publicada_em", "descricao", "remoto", "tipo"]
+        for r in self.c.execute(f"SELECT {','.join(cols)} FROM vagas").fetchall():
+            v = dict(zip(cols, r))
+            v["remoto"] = bool(v["remoto"])
+            av = avaliar(v, perfil)
+            if av is None:
+                self.c.execute("DELETE FROM vagas WHERE id=?", (v["id"],))
+            else:
+                self.c.execute("UPDATE vagas SET nota=?, avaliacao=? WHERE id=?",
+                               (av["nota"], json.dumps(av, ensure_ascii=False), v["id"]))
+
     def commit(self):
         self.c.commit()

@@ -68,6 +68,7 @@ def main():
         total += 1
         if banco.salvar(vaga.to_dict(), aval):
             novas.append((vaga.to_dict(), aval))
+    banco.reavaliar(perfil, avaliar)
     banco.commit()
     print(f"\n{total} vagas avaliadas, {len(novas)} novas, {ignoradas} ignoradas pelo título")
 
