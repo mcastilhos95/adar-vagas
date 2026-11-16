@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar de Vagas | __NOME__</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#f6f5f2;--card:#fff;--ink:#1d2433;--mute:#6b7280;--line:#e6e3dc;
+        --ok:#1f8a5b;--bom:#c79100;--pos:#d26a1b;--baixa:#9aa0a6;--acc:#24527a;}
+  @media (prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1d2026;--ink:#eceef2;--mute:#9aa1ad;--line:#2c3038;--acc:#7fb2e5;}}
+  *{box-sizing:border-box} body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  header{padding:22px 16px 8px;max-width:1100px;margin:auto}
+  h1{font-size:22px;margin:0} .sub{color:var(--mute);font-size:13px;margin-top:4px}
+  main{max-width:1100px;margin:auto;padding:0 16px 60px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .kpi b{display:block;font-size:24px} .kpi span{color:var(--mute);font-size:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .box h2{font-size:15px;margin:0 0 8px}
+  .gap{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13px}
+  .gap .bar{height:8px;background:var(--pos);border-radius:4px;opacity:.75}
+  .filtros{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 10px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5}
+  input,select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+  input[type=search]{flex:1;min-width:160px}
+  .vaga{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0;display:grid;grid-template-columns:58px 1fr;gap:12px}
+  .vaga.desc{opacity:.45}
+  .nota{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;color:#fff}
+  .Excelente{background:var(--ok)} .Boa{background:var(--bom)} .Possível{background:var(--pos)} .Baixa{background:var(--baixa)}
+  .vaga>div{min-width:0} .vaga h3{margin:0;font-size:16px} .meta{color:var(--mute);font-size:13px;margin:2px 0 6px}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0}
+  .chip{font-size:11.5px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--mute)}
+  .chip.f{color:var(--ok);border-color:var(--ok)} .chip.l{color:var(--pos);border-color:var(--pos)}
+  .chip.a{background:#fde8e1;color:#9a3412;border:0} .chip.b{background:#e3f4ea;color:#14633f;border:0}
+  .chip.novo{background:var(--acc);color:#fff;border:0}
+  .acoes{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .acoes a,.acoes button{font:inherit;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;cursor:pointer}
+  .acoes a{background:var(--acc);color:#fff;border:0}
+  .acoes button.on{background:var(--ok);color:#fff;border:0}
+  details{margin-top:8px} summary{cursor:pointer;color:var(--acc);font-size:13px}
+  .det{display:grid;grid-template-columns:240px 1fr;gap:12px;margin-top:8px} @media(max-width:640px){.det{grid-template-columns:1fr}}
+  .comp div{font-size:13px;margin:3px 0} .desc-txt{font-size:13px;color:var(--mute);max-height:180px;overflow:auto;white-space:pre-wrap;margin-top:6px}
+  .vazio{text-align:center;color:var(--mute);padding:40px}
+  footer{color:var(--mute);font-size:12px;text-align:center;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔎 Radar de Vagas | __NOME__</h1>
+  <div class="sub">Faturamento hospitalar e administrativo em Porto Alegre e região. Atualizado em <span id="atualizado"></span></div>
+</header>
+<main>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid2">
+    <div class="box"><h2>O que o mercado pede x o que ela tem</h2><canvas id="radarGeral" height="260"></canvas></div>
+    <div class="box"><h2>Lacunas mais pedidas nas vagas boas</h2><div id="gaps"></div>
+      <h2 style="margin-top:14px">Vagas por site</h2><canvas id="fontes" height="130"></canvas></div>
+  </div>
+
+  <div class="filtros">
+    <input type="search" id="q" placeholder="Buscar cargo, empresa, termo...">
+    <select id="fFonte"><option value="">Todos os sites</option></select>
+    <select id="fFaixa"><option value="">Qualquer nota</option><option value="75">Excelente (75+)</option><option value="60">Boa (60+)</option><option value="45">Possível (45+)</option></select>
+    <select id="fTrilha"><option value="">Todas as trilhas</option></select>
+    <select id="fQuando"><option value="">Qualquer data</option><option value="1">Últimas 24h</option><option value="3">3 dias</option><option value="7">7 dias</option></select>
+    <select id="fStatus"><option value="ativas">Esconder descartadas</option><option value="">Mostrar tudo</option><option value="candidatou">Só candidatadas</option></select>
+    <select id="ordem"><option value="nota">Ordenar por nota</option><option value="data">Mais recentes</option></select>
+  </div>
+  <div id="lista"></div>
+  <footer>Nota = título (35%) + competências (35%) + local (15%) + recência (15%), com bônus e alertas.<br>Status de candidatura fica salvo neste aparelho.</footer>
+</main>
+<script>
+const DADOS = __DADOS__;
+const vagas = DADOS.vagas;
+document.getElementById('atualizado').textContent = new Date(DADOS.gerado_em).toLocaleString('pt-BR');
+
+// status salvo no aparelho
+const LS = 'radar_status_v1';
+let status = {}; try { status = JSON.parse(localStorage.getItem(LS) || '{}'); } catch(e) {}
+const salvarStatus = () => { try { localStorage.setItem(LS, JSON.stringify(status)); } catch(e) {} };
+
+const horas = v => (Date.now() - new Date(v.primeira_vez)) / 36e5;
+const ehNova = v => horas(v) <= 24;
+const fmtDias = d => d == null ? 'data não informada' : d === 0 ? 'publicada hoje' : d === 1 ? 'publicada ontem' : `publicada há ${d} dias`;
+const esc = s => (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// KPIs
+const k = (n, t) => `<div class="kpi"><b>${n}</b><span>${t}</span></div>`;
+const boas = vagas.filter(v => v.av.nota >= 60);
+document.getElementById('kpis').innerHTML =
+  k(vagas.length, 'vagas no radar') + k(vagas.filter(ehNova).length, 'novas nas últimas 24h') +
+  k(vagas.filter(v => v.av.nota >= 75).length, 'excelentes (75+)') + k(boas.length, 'boas (60+)') +
+  k(Object.values(status).filter(s => s === 'candidatou').length, 'candidaturas marcadas') +
+  k(vagas.length ? Math.round(vagas.reduce((a, v) => a + v.av.nota, 0) / vagas.length) : 0, 'nota média');
+
+// filtros dinâmicos
+const uniq = a => [...new Set(a)].filter(Boolean).sort();
+uniq(vagas.flatMap(v => v.fontes)).forEach(f => fFonte.add(new Option(f, f)));
+uniq(vagas.map(v => v.av.trilha)).forEach(t => fTrilha.add(new Option(t, t)));
+
+// radar geral: média da demanda nas vagas boas x nível dela
+const base = boas.length ? boas : vagas;
+const dims = (vagas[0]?.av.radar || []).map(r => r.dimensao);
+const cor = getComputedStyle(document.documentElement);
+const corAcc = cor.getPropertyValue('--acc').trim(), corPos = '#d26a1b';
+const radarCfg = (labels, deisi, vaga, legenda = true) => ({
+  type: 'radar',
+  data: { labels, datasets: [
+    { label: 'Deisi', data: deisi, borderColor: corAcc, backgroundColor: corAcc + '33', pointRadius: 2 },
+    { label: 'Vaga pede', data: vaga, borderColor: corPos, backgroundColor: corPos + '22', pointRadius: 2 } ] },
+  options: { plugins: { legend: { display: legenda } }, scales: { r: { min: 0, max: 5, ticks: { stepSize: 1, display: false },
+    pointLabels: { font: { size: 11 } } } } }
+});
+if (dims.length) new Chart(radarGeral, radarCfg(dims,
+  dims.map((d, i) => vagas[0].av.radar[i].deisi),
+  dims.map((d, i) => +(base.reduce((a, v) => a + v.av.radar[i].vaga, 0) / Math.max(1, base.length)).toFixed(2))));
+
+// lacunas
+const cont = {}; base.forEach(v => v.av.lacunas.forEach(l => cont[l] = (cont[l] || 0) + 1));
+const topLac = Object.entries(cont).sort((a, b) => b[1] - a[1]).slice(0, 8);
+const mx = topLac[0]?.[1] || 1;
+gaps.innerHTML = topLac.length ? topLac.map(([t, n]) =>
+  `<div class="gap"><div style="width:120px">${esc(t)}</div><div class="bar" style="width:${Math.max(8, 160 * n / mx)}px"></div><span>${n}</span></div>`).join('')
+  : '<div class="sub">Nenhuma lacuna recorrente. Ótimo sinal.</div>';
+
+// por fonte
+const pf = {}; vagas.forEach(v => v.fontes.forEach(f => pf[f] = (pf[f] || 0) + 1));
+new Chart(fontes, { type: 'bar', data: { labels: Object.keys(pf), datasets: [{ data: Object.values(pf), backgroundColor: corAcc }] },
+  options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { ticks: { precision: 0 } } } } });
+
+// lista
+const minis = [];
+function render() {
+  minis.forEach(c => c.destroy()); minis.length = 0;
+  const q = q_.value.toLowerCase(), ff = fFonte.value, fx = +fFaixa.value || 0, ft = fTrilha.value,
+        fq = +fQuando.value || 0, fs = fStatus.value;
+  let l = vagas.filter(v =>
+    (!q || (v.titulo + ' ' + v.empresa + ' ' + v.descricao).toLowerCase().includes(q)) &&
+    (!ff || v.fontes.includes(ff)) && v.av.nota >= fx && (!ft || v.av.trilha === ft) &&
+    (!fq || (v.av.dias != null ? v.av.dias <= fq : horas(v) <= fq * 24)) &&
+    (fs === '' || (fs === 'ativas' ? status[v.id] !== 'descartada' : status[v.id] === fs)));
+  l.sort(ordem.value === 'data' ? (a, b) => (a.av.dias ?? 999) - (b.av.dias ?? 999) : (a, b) => b.av.nota - a.av.nota);
+  if (!l.length) { lista.innerHTML = '<div class="vazio">Nenhuma vaga com esses filtros.</div>'; return; }
+  lista.innerHTML = l.map(v => {
+    const a = v.av, st = status[v.id];
+    return `<div class="vaga ${st === 'descartada' ? 'desc' : ''}" data-id="${v.id}">
+      <div class="nota ${a.faixa}" title="${a.faixa}">${a.nota}</div>
+      <div>
+        <h3>${esc(v.titulo)}</h3>
+        <div class="meta">${esc(v.empresa) || 'Empresa não informada'} · ${esc(v.local) || 'local não informado'} · ${fmtDias(a.dias)}</div>
+        <div class="chips">
+          ${ehNova(v) ? '<span class="chip novo">NOVA</span>' : ''}
+          ${v.fontes.map(f => `<span class="chip">${f}</span>`).join('')}
+          <span class="chip">${a.trilha}</span><span class="chip">${a.local_tipo}</span>
+          ${a.cobertura != null ? `<span class="chip">cobre ${a.cobertura}% do pedido</span>` : ''}
+        </div>
+        <div class="chips">${a.bonus.map(b => `<span class="chip b">+ ${esc(b)}</span>`).join('')}${a.alertas.map(x => `<span class="chip a">⚠ ${esc(x)}</span>`).join('')}</div>
+        <div class="chips">${a.fortes.slice(0, 8).map(t => `<span class="chip f">✓ ${esc(t)}</span>`).join('')}${a.lacunas.map(t => `<span class="chip l">✗ ${esc(t)}</span>`).join('')}</div>
+        <div class="acoes">
+          <a href="${v.url}" target="_blank" rel="noopener">Abrir vaga</a>
+          <button data-s="candidatou" class="${st === 'candidatou' ? 'on' : ''}">${st === 'candidatou' ? '✓ Candidatei' : 'Marcar candidatura'}</button>
+          <button data-s="descartada">${st === 'descartada' ? 'Restaurar' : 'Descartar'}</button>
+        </div>
+        <details><summary>Ver radar e detalhes da nota</summary>
+          <div class="det"><canvas class="mini" height="220"></canvas>
+          <div class="comp">
+            <div>Título: <b>${a.componentes.titulo}</b>/100</div>
+            <div>Competências: <b>${a.componentes.competencias}</b>/100</div>
+            <div>Local: <b>${a.componentes.local}</b>/100</div>
+            <div>Recência: <b>${a.componentes.recencia}</b>/100</div>
+            <div class="desc-txt">${esc(v.descricao).slice(0, 2500) || 'Sem descrição disponível neste site.'}</div>
+          </div></div>
+        </details>
+      </div></div>`;
+  }).join('');
+  lista.querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => {
+    if (!d.open || d.dataset.ok) return; d.dataset.ok = 1;
+    const v = vagas.find(x => x.id === d.closest('.vaga').dataset.id);
+    minis.push(new Chart(d.querySelector('.mini'), radarCfg(v.av.radar.map(r => r.dimensao),
+      v.av.radar.map(r => r.deisi), v.av.radar.map(r => r.vaga), false)));
+  }));
+  lista.querySelectorAll('button[data-s]').forEach(b => b.onclick = () => {
+    const id = b.closest('.vaga').dataset.id, s = b.dataset.s;
+    status[id] = status[id] === s ? undefined : s; salvarStatus(); render();
+  });
+}
+const q_ = document.getElementById('q');
+[q_, fFonte, fFaixa, fTrilha, fQuando, fStatus, ordem].forEach(e => e.addEventListener('input', render));
+render();
+</script>
+</body>
+</html>

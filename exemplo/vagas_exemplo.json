@@ -1,0 +1,112 @@
+[
+ {
+  "fonte": "Gupy",
+  "titulo": "Analista de Faturamento Hospitalar",
+  "empresa": "Hospital Exemplo A",
+  "local": "Porto Alegre, RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-16T16:52:30.098917+00:00",
+  "descricao": "Conferência de contas hospitalares de internação e ambulatorial, análise de glosas e recurso de glosa, conhecimento em TUSS, CBHPM, Brasíndice e Simpro. Sistema Tasy. Ensino médio completo, desejável técnico de enfermagem.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "LinkedIn",
+  "titulo": "Faturista",
+  "empresa": "Clínica Exemplo B",
+  "local": "Canoas, Rio Grande do Sul, Brasil",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-15T16:52:30.098917+00:00",
+  "descricao": "Faturamento de convênios, fechamento de contas, envio de XML TISS, conferência de guias. Sistema MV Soul. Pacote Office.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Vagas.com",
+  "titulo": "Assistente de Faturamento",
+  "empresa": "Laboratório Exemplo C",
+  "local": "Porto Alegre / RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-13T16:52:30.098917+00:00",
+  "descricao": "Rotinas administrativas de faturamento, conferência de documentos, controle de pendências e prazos, atendimento a convênios.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Gupy",
+  "titulo": "Auditor(a) de Contas Médicas",
+  "empresa": "Operadora Exemplo D",
+  "local": "",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-14T16:52:30.098917+00:00",
+  "descricao": "Auditoria de contas médicas, análise de prontuário, OPME, materiais e medicamentos, glosas. Ensino superior completo em enfermagem. COREN ativo de enfermeiro.",
+  "remoto": true,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "LinkedIn",
+  "titulo": "Assistente Administrativo",
+  "empresa": "Hospital Exemplo E",
+  "local": "Porto Alegre, Rio Grande do Sul, Brasil",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-11T16:52:30.098917+00:00",
+  "descricao": "Atendimento, arquivo, documentos, planilhas Excel, controle de agendas e rotinas administrativas na área da saúde.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Gupy",
+  "titulo": "Coordenador de Faturamento",
+  "empresa": "Rede Exemplo F",
+  "local": "Porto Alegre, RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-12T16:52:30.098917+00:00",
+  "descricao": "Liderança de equipe de faturamento, indicadores, glosas, negociação com convênios, Power BI. Superior completo.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Vagas.com",
+  "titulo": "Auxiliar de Departamento Pessoal",
+  "empresa": "Empresa Exemplo G",
+  "local": "Gravataí / RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-07T16:52:30.098917+00:00",
+  "descricao": "Admissão, folha de ponto, documentos, rotinas de departamento pessoal.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Gupy",
+  "titulo": "Analista de Contas Hospitalares",
+  "empresa": "Santa Casa Exemplo H",
+  "local": "Porto Alegre, RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-15T16:52:30.098917+00:00",
+  "descricao": "Conferência de contas de internação, honorários médicos, taxas, OPME, prevenção de glosas, Tasy, Excel. Experiência hospitalar.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "LinkedIn",
+  "titulo": "Faturista Pleno",
+  "empresa": "Clínica Exemplo I",
+  "local": "Caxias do Sul, Rio Grande do Sul, Brasil",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-10T16:52:30.098917+00:00",
+  "descricao": "Faturamento SUS e convênios, SIGTAP, CID, codificação.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ },
+ {
+  "fonte": "Gupy",
+  "titulo": "Estágio em Faturamento",
+  "empresa": "Hospital Exemplo J",
+  "local": "Porto Alegre, RS",
+  "url": "https://exemplo.invalid/vaga",
+  "publicada_em": "2026-11-16T16:52:30.098917+00:00",
+  "descricao": "Estágio.",
+  "remoto": false,
+  "termo_busca": "faturista"
+ }
+]

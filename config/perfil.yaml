@@ -1,0 +1,143 @@
+# Perfil da candidata. Tudo que o robô usa para dar nota vem daqui.
+# Para adaptar a outra pessoa, troque este arquivo.
+
+nome: Deisi Viviane Cadury Ferreira
+cidade_base: Porto Alegre
+
+# Termos de busca enviados para cada site
+buscas:
+  principais:
+    - faturista
+    - faturamento hospitalar
+    - analista de faturamento
+    - assistente de faturamento
+    - auxiliar de faturamento
+    - contas médicas
+    - auditoria de contas médicas
+    - glosas
+    - contas hospitalares
+  secundarias:
+    - assistente administrativo hospital
+    - auxiliar administrativo saúde
+    - recepção hospitalar
+    - assistente de recursos humanos
+    - auxiliar de departamento pessoal
+
+# Locais aceitos (texto normalizado, sem acento)
+locais:
+  ideal: [porto alegre]
+  aceito: [canoas, gravataí, gravatai, cachoeirinha, alvorada, viamão, viamao,
+           esteio, sapucaia do sul, são leopoldo, sao leopoldo, novo hamburgo,
+           guaíba, guaiba, eldorado do sul, região metropolitana]
+  remoto_ok: true
+
+# Títulos de vaga. alvo = foco principal, secundario = plano B
+titulos:
+  alvo:
+    - faturista
+    - faturamento
+    - contas medicas
+    - contas hospitalares
+    - glosa
+    - auditoria de contas
+    - analista de contas
+    - recurso de glosa
+    - autorizacao
+    - guias
+  secundario:
+    - administrativo
+    - recepcao
+    - recepcionista
+    - recursos humanos
+    - departamento pessoal
+    - rh
+
+# Dimensões do radar. nivel = quanto a Deisi domina (0 a 5).
+# termos = palavras que, se aparecerem na vaga, indicam que a vaga pede isso.
+# tem = termos dessa dimensão que ela realmente tem no currículo.
+dimensoes:
+  Faturamento:
+    nivel: 5
+    termos: [faturamento, faturista, contas hospitalares, conta hospitalar, internacao,
+             internação, ambulatorial, convenios, convênios, saude suplementar,
+             fechamento de contas, conferencia de contas, conferência de contas,
+             honorarios, honorários, opme, materiais e medicamentos, taxas]
+    tem: [faturamento, faturista, contas hospitalares, conta hospitalar, internacao,
+          internação, convenios, convênios, saude suplementar, conferencia de contas,
+          conferência de contas, honorarios, honorários, opme, materiais e medicamentos, taxas]
+  Glosas/Auditoria:
+    nivel: 4
+    termos: [glosa, glosas, auditoria, recurso de glosa, auditoria de contas,
+             pre auditoria, pré-auditoria, inconsistencias, inconsistências]
+    tem: [glosa, glosas, auditoria, auditoria de contas, inconsistencias, inconsistências]
+  Tabelas:
+    nivel: 2
+    termos: [tuss, cbhpm, brasindice, brasíndice, simpro, amb, tiss, sus, sigtap,
+             cid, codificacao, codificação, xml]
+    tem: [tuss, cbhpm, brasindice, brasíndice, simpro]
+  Sistemas:
+    nivel: 3
+    termos: [tasy, mv, soul mv, philips, wareline, excel, pacote office, prontuario eletronico,
+             prontuário eletrônico, sistema hospitalar, erp, power bi]
+    tem: [tasy, philips, excel, pacote office, prontuario eletronico, prontuário eletrônico,
+          sistema hospitalar]
+  Clínico:
+    nivel: 5
+    termos: [prontuario, prontuário, tecnico de enfermagem, técnico de enfermagem, enfermagem,
+             coren, instrumentacao, instrumentação, centro cirurgico, centro cirúrgico, uti,
+             procedimentos, terminologia medica, terminologia médica]
+    tem: [prontuario, prontuário, tecnico de enfermagem, técnico de enfermagem, enfermagem,
+          coren, instrumentacao, instrumentação, centro cirurgico, centro cirúrgico, uti,
+          procedimentos, terminologia medica, terminologia médica]
+  Administrativo:
+    nivel: 3
+    termos: [administrativo, controle de prazos, pendencias, pendências, planilhas,
+             atendimento, rotinas administrativas, arquivo, documentos, indicadores,
+             processos, supervisao, supervisão, escalas, equipe]
+    tem: [administrativo, controle de prazos, pendencias, pendências, planilhas,
+          rotinas administrativas, documentos, processos, supervisao, supervisão,
+          escalas, equipe, atendimento]
+
+# Sinais de alerta (reduzem a nota e aparecem como aviso)
+alertas:
+  - termos: [superior completo, ensino superior completo, graduação completa, graduacao completa, formação superior completa]
+    aviso: "Pede superior completo (ela está cursando, conclusão 2028)"
+    peso: 12
+  - termos: [enfermeiro, enfermeira, coren ativo de enfermeiro, bacharel em enfermagem]
+    aviso: "Pode exigir enfermeira de nível superior"
+    peso: 25
+  - termos: [senior, sênior, coordenador, coordenadora, gerente, supervisor de faturamento, lider, líder]
+    aviso: "Cargo sênior ou de liderança"
+    peso: 18
+  - termos: [ingles fluente, inglês fluente, ingles avancado, inglês avançado]
+    aviso: "Pede inglês avançado"
+    peso: 8
+  - termos: [mv soul, soul mv, sistema mv]
+    aviso: "Usa sistema MV (ela conhece Tasy). Vale citar adaptação rápida"
+    peso: 2
+
+# Pontos que somam (ela tem e é diferencial)
+bonus:
+  - termos: [tasy]
+    motivo: "Usa Tasy, sistema que ela já opera"
+    peso: 6
+  - termos: [tecnico de enfermagem, técnico de enfermagem, experiencia hospitalar, experiência hospitalar, area da saude, área da saúde]
+    motivo: "Valoriza vivência assistencial/hospitalar"
+    peso: 4
+  - termos: [santa casa]
+    motivo: "Santa Casa, onde ela já trabalhou"
+    peso: 3
+
+# Pesos da nota final (somam 100)
+pesos:
+  titulo: 35
+  competencias: 35
+  local: 15
+  recencia: 15
+
+# Ignorar vagas com estes termos no título
+ignorar_titulo: [estagio, estágio, jovem aprendiz, aprendiz, trainee, medico, médico,
+                 farmaceutico, farmacêutico, vendedor, motorista, desenvolvedor]
+
+# Notificação: só avisa vagas com nota a partir de
+nota_minima_alerta: 55
